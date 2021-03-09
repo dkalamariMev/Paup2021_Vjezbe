@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Treca";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Treća metoda</h2>
+
+<h3>Poruka: @ViewBag.Poruka</h3>
+<h3>Broj ponavljanja: @ViewBag.Broj</h3>
+
+@if (ViewBag.Broj <= 20)
+{
+    <ul>
+        @for (int i = 0; i < ViewBag.Broj; i++)
+        {
+            <li>@ViewBag.Poruka</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Broj ponavljanja je prevelik!</p>
+}
+
