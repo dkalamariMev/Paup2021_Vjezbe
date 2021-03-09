@@ -42,5 +42,10 @@ namespace Paup2021_Vjezbe.Controllers
         {
             return DateTime.Now.ToString();
         }
+
+        public string VratiVrijemeUtorak()
+        {
+            return DateTime.Now.ToString();
+        }
     }
 }
