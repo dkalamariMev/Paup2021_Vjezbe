@@ -47,5 +47,9 @@ namespace Paup2021_Vjezbe.Controllers
         {
             return DateTime.Now.ToString();
         }
+        public string GalinaErik()
+        {
+            return "Galina Erik";
+        }
     }
 }
