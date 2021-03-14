@@ -58,6 +58,10 @@ namespace Paup2021_Vjezbe.Controllers
         public string CarKarlo()
         {
             return "Karlo Car";
-        }  
+        } 
+        public string JovanovicMatija()
+        {
+            return "Jovanović Matija"
+        }
     }
 }
