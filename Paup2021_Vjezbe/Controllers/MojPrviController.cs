@@ -47,5 +47,12 @@ namespace Paup2021_Vjezbe.Controllers
         {
             return DateTime.Now.ToString();
         }
+
+        public string CarKarlo()
+        {
+            return "Karlo Car";
+        }
+
+       
     }
 }
