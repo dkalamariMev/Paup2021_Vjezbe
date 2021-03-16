@@ -1,0 +1,31 @@
+﻿@using Paup2021_Vjezbe.Models
+@model StudentiDB
+@{
+    ViewBag.Title = "Popis";
+    Layout = "~/Views/Shared/_Layout.cshtml";      
+}
+
+<h2>Popis</h2>
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Prezime</th>
+        <th>Ime</th>
+        <th>Oib</th>
+        <th>Redovan</th>
+        <th>Detalji</th>
+    </tr>
+    @foreach(var student in Model.VratiListu())
+    {
+        <tr>
+            <td>@student.Id</td>
+            <td>@student.Prezime</td>
+            <td>@student.Ime</td>
+            <td>@student.Oib</td>
+            <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @class = "name", @readonly = "readonly" })</td>
+            <td>@Html.ActionLink("Info", "Detalji", new { id = student.Id })</td>
+        </tr>
+    }
+</table>
+

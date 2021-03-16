@@ -1,0 +1,27 @@
+﻿@using Paup2021_Vjezbe.Models
+@model Student
+@{
+    ViewBag.Title = "Detalji";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string spol = "";
+    if (Model.Spol == 'M')
+    {
+        spol = "Muški";
+    }
+    else
+    {
+        spol = "Ženski";
+    }
+}
+
+<h2>Detalji o studentu</h2>
+
+Prezime: @Model.Prezime <br/>
+Ime: @Model.Ime <br/>
+Spol: @spol <br/>
+Godina studija: @Model.GodinaStudija <br/>
+Oib: @Model.Oib <br/>
+Redovni student: @Model.RedovniStudent <br/>
+Datum rođenja: @Model.DatumRodjenja.ToString("dd.MM.yyyy")
+
