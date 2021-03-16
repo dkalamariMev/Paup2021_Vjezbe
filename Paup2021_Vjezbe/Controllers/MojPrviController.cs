@@ -67,5 +67,9 @@ namespace Paup2021_Vjezbe.Controllers
         {
             return "Novak Lucija";
         }
+        public string BesenicErik()
+        {
+            return "Besenic Erik";
+        }
     }
 }
