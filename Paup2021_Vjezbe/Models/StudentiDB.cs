@@ -9,6 +9,7 @@ namespace Paup2021_Vjezbe.Models
     {
         private List<Student> lista = new List<Student>();
 
+        //Konstruktor se izvršava kod instanciranja klase, tj kad koristimo naredbu StudentiDB studenti = new StudentiDB();
         public StudentiDB()
         {
             lista.Add(new Student()
@@ -64,6 +65,7 @@ namespace Paup2021_Vjezbe.Models
             );
         }
 
+        //Metoda koja vraća listu studenata popunjenu u konstruktoru
         public List<Student> VratiListu()
         {
             return lista;
