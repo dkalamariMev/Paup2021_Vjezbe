@@ -2,7 +2,7 @@
 @model StudentiDB
 @{
     ViewBag.Title = "Popis";
-    Layout = "~/Views/Shared/_Layout.cshtml";      
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Popis</h2>
@@ -15,6 +15,7 @@
         <th>Oib</th>
         <th>Redovan</th>
         <th>Detalji</th>
+        <th>Ažuriranje</th>
     </tr>
     @foreach(var student in Model.VratiListu())
     {
@@ -23,8 +24,9 @@
             <td>@student.Prezime</td>
             <td>@student.Ime</td>
             <td>@student.Oib</td>
-            <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @class = "name", @readonly = "readonly" })</td>
+            <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @disabled = "disabled" })</td>
             <td>@Html.ActionLink("Info", "Detalji", new { id = student.Id })</td>
+            <td>@Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id })</td>
         </tr>
     }
 </table>
