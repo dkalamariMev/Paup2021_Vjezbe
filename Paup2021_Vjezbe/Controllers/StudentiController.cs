@@ -98,6 +98,17 @@ namespace Paup2021_Vjezbe.Controllers
                                    // forgery  (poziva post metode izvan naše aplikacije)
         public ActionResult Azuriraj(Student s)
         {
+            if (!OIB.CheckOIB(s.Oib))
+            {
+                ModelState.AddModelError("Oib", "Neispravan OIB");
+            }
+
+            DateTime datumPrije18g = DateTime.Now.AddYears(-18);
+            if(s.DatumRodjenja > datumPrije18g)
+            {
+                ModelState.AddModelError("DatumRodjenja", "Osoba mora biti starija od 18");
+            }
+
             //ModelState.IsValid - provjera ispravnosti podataka
             //npr. ako je atribut int tipa a mi smo unijeli string u to polje na formi
             //neće proći validaciju i preusmjerit će korisnika na

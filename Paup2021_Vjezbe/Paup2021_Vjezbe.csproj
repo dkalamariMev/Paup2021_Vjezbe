@@ -154,6 +154,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\GodinaStudija.cs" />
+    <Compile Include="Models\OIB.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentiDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
