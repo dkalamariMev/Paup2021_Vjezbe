@@ -29,7 +29,7 @@ namespace Paup2021_Vjezbe.Models
                     Prezime = "Perić",
                     Ime = "Petar",
                     DatumRodjenja = new DateTime(1995, 10, 15),
-                    Spol = 'M',
+                    Spol = "M",
                     GodinaStudija = GodinaStudija.Druga,
                     Oib = "12345678911",
                     RedovniStudent = true
@@ -42,7 +42,7 @@ namespace Paup2021_Vjezbe.Models
                     Prezime = "Mat",
                     Ime = "Ines",
                     DatumRodjenja = new DateTime(1998, 10, 15),
-                    Spol = 'Z',
+                    Spol = "Z",
                     GodinaStudija = GodinaStudija.Prva,
                     Oib = "12345678911",
                     RedovniStudent = true
@@ -55,7 +55,7 @@ namespace Paup2021_Vjezbe.Models
                     Prezime = "Bes",
                     Ime = "Marta",
                     DatumRodjenja = new DateTime(1988, 04, 01),
-                    Spol = 'Z',
+                    Spol = "Z",
                     GodinaStudija = GodinaStudija.Treca,
                     Oib = "12345678911",
                     RedovniStudent = false
@@ -68,7 +68,7 @@ namespace Paup2021_Vjezbe.Models
                     Prezime = "Preko",
                     Ime = "Jura",
                     DatumRodjenja = new DateTime(1995, 10, 15),
-                    Spol = 'M',
+                    Spol = "M",
                     GodinaStudija = GodinaStudija.Prva,
                     Oib = "12344448911",
                     RedovniStudent = true

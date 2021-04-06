@@ -10,6 +10,8 @@ namespace Paup2021_Vjezbe.Controllers
 {
     public class StudentiController : Controller
     {
+        BazaDbContext bazaPodataka = new BazaDbContext();
+
         // GET: Studenti
         public ActionResult Index()
         {
@@ -20,8 +22,8 @@ namespace Paup2021_Vjezbe.Controllers
 
         public ActionResult Popis()
         {
-            //Instanciramo klasu StudentiDB koja sadržava listu studenata
-            StudentiDB studenti = new StudentiDB();
+            var studenti = bazaPodataka.PopisStudenata.ToList();
+
             //Objekt studentidb klase StudentiDB prosljeđujemo u View kao njegov model
             return View(studenti);
         }
@@ -36,15 +38,7 @@ namespace Paup2021_Vjezbe.Controllers
                 return RedirectToAction("Popis");
             }
 
-            //Instanciramo klasu StudentiDB koja sadržava listu studenata
-            StudentiDB studenti = new StudentiDB();
-
-            /*
-               * sa objekta studentidb pozivamo metodu VratiListu() koja nam vraća listu studenata
-               * pomoću Lambda izraza FirstOrDefault(x => x.Id == id) dohvaćamo prvog elementa iz liste
-               * kojemu se vrijednost propertya Id podudara sa vrijednošću parametra id
-               */
-            Student student = studenti.VratiListu().FirstOrDefault(x => x.Id == id);
+            Student student = bazaPodataka.PopisStudenata.FirstOrDefault(x => x.Id == id);
 
             //ako u listi nema studenta sa traženim Id-em onda je varijabla student null
             if (student == null)
@@ -71,14 +65,7 @@ namespace Paup2021_Vjezbe.Controllers
                 //ILI za preusmjeravanje korisnika na akciju Popis: return RedirectToAction("Popis");
             }
 
-            //Instanciramo klasu StudentiDB koja sadržava listu studenata
-            StudentiDB studentidb = new StudentiDB();
-
-            /*
-             * pomoću Lambda izraza FirstOrDefault(x => x.Id == id) dohvaćamo prvog elementa iz liste
-             * kojemu se vrijednost propertya Id podudara sa vrijednošću parametra id
-             */
-            Student student = studentidb.VratiListu().FirstOrDefault(x => x.Id == id);
+            Student student = bazaPodataka.PopisStudenata.FirstOrDefault(x => x.Id == id);
 
             //ako u listi nema studenta sa traženim Id-em onda je varijabla student null
             if (student == null)
@@ -98,6 +85,17 @@ namespace Paup2021_Vjezbe.Controllers
                                    // forgery  (poziva post metode izvan naše aplikacije)
         public ActionResult Azuriraj(Student s)
         {
+            if (!OIB.CheckOIB(s.Oib)) //Provjera OIB-a
+            {
+                ModelState.AddModelError("Oib", "Neispravan OIB");
+            }
+
+            DateTime datumPrije18g = DateTime.Now.AddYears(-18);
+            if (s.DatumRodjenja > datumPrije18g)
+            {
+                ModelState.AddModelError("DatumRodjenja", "Osoba mora biti starija od 18");
+            }
+
             //ModelState.IsValid - provjera ispravnosti podataka
             //npr. ako je atribut int tipa a mi smo unijeli string u to polje na formi
             //neće proći validaciju i preusmjerit će korisnika na
@@ -105,9 +103,8 @@ namespace Paup2021_Vjezbe.Controllers
             //više o tome na narednim vježbama
             if (ModelState.IsValid)
             {
-                //Ažuriranje liste podataka
-                StudentiDB studentidb = new StudentiDB();
-                studentidb.AzurirajStudenta(s);
+                bazaPodataka.Entry(s).State = System.Data.Entity.EntityState.Modified;
+                bazaPodataka.SaveChanges();
                 //Preusmjeravanje na metodu koja vraća popis studenata
                 return RedirectToAction("Popis");
             }

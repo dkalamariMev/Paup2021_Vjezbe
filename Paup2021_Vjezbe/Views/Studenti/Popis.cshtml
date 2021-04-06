@@ -1,5 +1,5 @@
 ﻿@using Paup2021_Vjezbe.Models
-@model StudentiDB
+@model List<Student>
 @{
     ViewBag.Title = "Popis";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,7 +17,7 @@
         <th>Detalji</th>
         <th>Ažuriranje</th>
     </tr>
-    @foreach(var student in Model.VratiListu())
+    @foreach(var student in Model)
     {
         <tr>
             <td>@student.Id</td>

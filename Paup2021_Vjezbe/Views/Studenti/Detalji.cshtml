@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     string spol = "";
-    if (Model.Spol == 'M')
+    if (Model.Spol == "M")
     {
         spol = "Muški";
     }
@@ -17,11 +17,12 @@
 
 <h2>Detalji o studentu</h2>
 
-Prezime: @Model.Prezime <br/>
-Ime: @Model.Ime <br/>
-Spol: @spol <br/>
-Godina studija: @Model.GodinaStudija <br/>
-Oib: @Model.Oib <br/>
-Redovni student: @Model.RedovniStudent <br/>
-Datum rođenja: @Model.DatumRodjenja.ToString("dd.MM.yyyy")
+Prezime: @Model.Prezime<br />
+Ime: @Model.Ime<br />
+Spol: @spol<br />
+Godina studija: @Model.GodinaStudija<br />
+Oib: @Model.Oib<br />
+Redovni student: @Model.RedovniStudent<br />
+Datum rođenja: @Model.DatumRodjenja.ToString("dd.MM.yyyy")<br/>
+Broj upisanih kolegija: @Model.BrojUpisanihKolegija<br />
 
