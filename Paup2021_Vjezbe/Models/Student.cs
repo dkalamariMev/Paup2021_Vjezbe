@@ -34,8 +34,8 @@ namespace Paup2021_Vjezbe.Models
 
         [Column("datum_rodjenja")]
         [Display(Name = "Datum rođenja")]
+        [Required(ErrorMessage ="{0} je obavezan")]        
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Required(ErrorMessage = "{0} je obavezan")]
         [DataType(DataType.Date)]
         public DateTime DatumRodjenja { get; set; }
 
@@ -46,11 +46,5 @@ namespace Paup2021_Vjezbe.Models
         [Column("redovni_student")]
         [Display(Name = "Redovan student")]
         public bool RedovniStudent { get; set; }
-
-        [Column("broj_upisanih_kolegija")]
-        [Display(Name = "Broj upisanih kolegija")]
-        [Required(ErrorMessage = "{0} je obavezan")]
-        [Range(1, 8, ErrorMessage = "Vrijednost {0} mora biti između {1} i {2}")]
-        public int BrojUpisanihKolegija { get; set; }
     }
 }
