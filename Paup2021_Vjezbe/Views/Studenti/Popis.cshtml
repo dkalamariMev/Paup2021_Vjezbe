@@ -7,6 +7,26 @@
 
 <h2>Popis</h2>
 
+@Html.ActionLink("Kreiranje novog studenta", "Azuriraj")
+<br/>
+<br/>
+
+@using(Html.BeginForm("Popis", "Studenti", FormMethod.Get))
+{
+    <p>
+        Naziv: @Html.TextBox("naziv")
+        Spol: @Html.RadioButton("spol", "M") Muški 
+                @Html.RadioButton("spol", "Z") Ženski
+                @Html.RadioButton("spol", "") Svi
+        <input type="submit" value="Traži" />
+    </p>
+}
+
+@if (Model.Count == 0)
+{
+    <p>Nema rezultata pretrage!</p>
+}
+else {
 <table border="1">
     <tr>
         <th>Id</th>
@@ -16,8 +36,9 @@
         <th>Redovan</th>
         <th>Detalji</th>
         <th>Ažuriranje</th>
+        <th>Brisanje</th>
     </tr>
-    @foreach(var student in Model)
+    @foreach (var student in Model)
     {
         <tr>
             <td>@student.Id</td>
@@ -27,7 +48,9 @@
             <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @disabled = "disabled" })</td>
             <td>@Html.ActionLink("Info", "Detalji", new { id = student.Id })</td>
             <td>@Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id })</td>
+            <td>@Html.ActionLink("Izbriši", "Brisi", new { id = student.Id })</td>
         </tr>
     }
 </table>
+}
 

@@ -24,6 +24,14 @@ namespace Paup2021_Vjezbe.Models
         [StringLength(30, MinimumLength = 2, ErrorMessage = "{0} mora biti duljine minimalno {2} a maksimalno {1} znakova")]
         public string Prezime { get; set; }
 
+        public string PrezimeIme
+        {
+            get
+            {
+                return Prezime + " " + Ime;
+            }
+        }
+
         [Display(Name = "Spol")]
         public string Spol { get; set; }
 

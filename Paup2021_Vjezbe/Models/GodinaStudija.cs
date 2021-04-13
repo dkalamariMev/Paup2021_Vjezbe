@@ -7,10 +7,10 @@ namespace Paup2021_Vjezbe.Models
 {
     public enum GodinaStudija
     {
-        Prva,
-        Druga,
-        Treca,
-        Cetvrta,
-        Peta
+        Prva = 1,
+        Druga = 2,
+        Treca = 3,
+        Cetvrta = 4,
+        Peta = 5
     }
 }

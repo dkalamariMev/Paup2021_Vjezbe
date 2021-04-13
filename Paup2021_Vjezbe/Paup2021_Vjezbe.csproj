@@ -155,8 +155,8 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Ubiety.Dns.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.8.0.19\lib\net452\Ubiety.Dns.Core.dll</HintPath>
+    <Reference Include="Ubiety.Dns.Core, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ubiety.Dns.Core.4.0.0\lib\net452\Ubiety.Dns.Core.dll</HintPath>
     </Reference>
     <Reference Include="Ubiety.Logging.Core, Version=1.2.2.0, Culture=neutral, PublicKeyToken=133e143470e66433, processorArchitecture=MSIL">
       <HintPath>..\packages\Ubiety.Logging.Core.1.2.2\lib\net452\Ubiety.Logging.Core.dll</HintPath>
@@ -263,6 +263,8 @@
     <Content Include="Views\Studenti\Popis.cshtml" />
     <Content Include="Views\Studenti\Detalji.cshtml" />
     <Content Include="Views\Studenti\Azuriraj.cshtml" />
+    <Content Include="Views\Studenti\Brisi.cshtml" />
+    <Content Include="Views\Studenti\BrisiStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
