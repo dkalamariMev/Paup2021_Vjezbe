@@ -15,7 +15,7 @@
 {
     <p>
         Naziv: @Html.TextBox("naziv")
-        Spol: @Html.RadioButton("spol", "M") Muški 
+        Spol: @Html.RadioButton("spol", "M") Muški
                 @Html.RadioButton("spol", "Z") Ženski
                 @Html.RadioButton("spol", "") Svi
         <input type="submit" value="Traži" />
@@ -27,30 +27,30 @@
     <p>Nema rezultata pretrage!</p>
 }
 else {
-<table border="1">
-    <tr>
-        <th>Id</th>
-        <th>Prezime</th>
-        <th>Ime</th>
-        <th>Oib</th>
-        <th>Redovan</th>
-        <th>Detalji</th>
-        <th>Ažuriranje</th>
-        <th>Brisanje</th>
-    </tr>
-    @foreach (var student in Model)
-    {
+    <table border="1">
         <tr>
-            <td>@student.Id</td>
-            <td>@student.Prezime</td>
-            <td>@student.Ime</td>
-            <td>@student.Oib</td>
-            <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @disabled = "disabled" })</td>
-            <td>@Html.ActionLink("Info", "Detalji", new { id = student.Id })</td>
-            <td>@Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id })</td>
-            <td>@Html.ActionLink("Izbriši", "Brisi", new { id = student.Id })</td>
+            <th>Id</th>
+            <th>Prezime</th>
+            <th>Ime</th>
+            <th>Oib</th>
+            <th>Redovan</th>
+            <th>Detalji</th>
+            <th>Ažuriranje</th>
+            <th>Brisanje</th>
         </tr>
-    }
-</table>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.Prezime</td>
+                <td>@student.Ime</td>
+                <td>@student.Oib</td>
+                <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @disabled = "disabled" })</td>
+                <td>@Html.ActionLink("Info", "Detalji", new { id = student.Id })</td>
+                <td>@Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id })</td>
+                <td>@Html.ActionLink("Izbriši", "Brisi", new { id = student.Id })</td>
+            </tr>
+        }
+    </table>
 }
 

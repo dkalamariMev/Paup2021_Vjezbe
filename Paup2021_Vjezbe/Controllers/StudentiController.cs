@@ -24,10 +24,12 @@ namespace Paup2021_Vjezbe.Controllers
         {
             var studenti = bazaPodataka.PopisStudenata.ToList();
 
+            //filtriranje
             if (!String.IsNullOrWhiteSpace(naziv))
             {
                 studenti = studenti.Where(x => x.PrezimeIme.ToUpper().Contains(naziv.ToUpper())).ToList();
             }
+
             if (!String.IsNullOrWhiteSpace(spol))
             {
                 studenti = studenti.Where(x => x.Spol == spol).ToList();
@@ -67,17 +69,19 @@ namespace Paup2021_Vjezbe.Controllers
         {
             Student student;
             //provjeravamo ako parametar id nema vrijednost, tj on nije definiran
+            //onda kreiramo novi objekt klase Student
             if (!id.HasValue)
             {
                 student = new Student();
                 ViewBag.Title = "Kreiranje studenta";
                 ViewBag.Novi = true;
             }
+            //ako id postoji onda provjeravamo ako taj student postoji u bazi podataka
             else
             {
                 student = bazaPodataka.PopisStudenata.FirstOrDefault(x => x.Id == id);
 
-                //ako u listi nema studenta sa traženim Id-em onda je varijabla student null
+                //ako u listi nema studenta sa traženim Id-em onda je objekt student null
                 if (student == null)
                 {
                     //return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -118,19 +122,24 @@ namespace Paup2021_Vjezbe.Controllers
             //više o tome na narednim vježbama
             if (ModelState.IsValid)
             {
+                //ako model ima vrijednost parametra Id različito od 0 tada znamo da korisnik ažurira podatke o studentu
                 if (s.Id != 0)
                 {
                     bazaPodataka.Entry(s).State = System.Data.Entity.EntityState.Modified;
                 }
+                //ako model ima vrijednost parametra Id jednak 0 tada se radi o dodavanju novog studenta
                 else
                 {
                     bazaPodataka.PopisStudenata.Add(s);
                 }
                 bazaPodataka.SaveChanges();
+
                 //Preusmjeravanje na metodu koja vraća popis studenata
                 return RedirectToAction("Popis");
             }
 
+            //ukoliko je došlo do greške validacije potrebno je ponovno prikazati formu za unos s unešenim podacima
+            //i ovisno dal se kreira (Id == 0) ili ažurira student modificiramo naslov stranice
             if(s.Id == 0)
             {
                 ViewBag.Title = "Kreiranje studenta";
@@ -141,19 +150,24 @@ namespace Paup2021_Vjezbe.Controllers
                 ViewBag.Title = "Ažuriranje podataka o studentu";
                 ViewBag.Novi = false;
             }
-            //Ako model nije ispravan vraćamo ga klijentu
+
             return View(s);
         }
 
+        //Potvrda akcije brisanja studenta
+        //GET metoda
         public ActionResult Brisi(int? id)
         {
+            //ako id nije defiran preusmjeravamo korisnika na popis studenata
             if(id == null)
             {
                 return RedirectToAction("Popis");
             }
 
+            //dohvaćamo studenta iz baze podataka na temelju id
             Student s = bazaPodataka.PopisStudenata.FirstOrDefault(x => x.Id == id);
 
+            //ako ne postoji student s tim id-em vraćamo HTTP status Not found
             if(s == null)
             {
                 return HttpNotFound();
@@ -163,7 +177,10 @@ namespace Paup2021_Vjezbe.Controllers
             return View(s);
         }
 
+        //Metoda za brisanje studenta
+        //Poziva je metoda za potvrdu brisanja
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Brisi(int id)
         {
             Student s = bazaPodataka.PopisStudenata.FirstOrDefault(x => x.Id == id);
@@ -175,6 +192,9 @@ namespace Paup2021_Vjezbe.Controllers
             bazaPodataka.PopisStudenata.Remove(s);
             bazaPodataka.SaveChanges();
 
+            //Ovdje smo definirali kao parametar naziv viewa koji metoda vraća
+            //Pošto GET metoda Brisi vraća view Brisi ovdje putem parametra definiramo koji view vraća ova metoda
+            //U tom viewu će biti prikazan status brisanja
             return View("BrisiStatus");
         }
     }
