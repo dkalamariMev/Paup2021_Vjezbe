@@ -36,3 +36,7 @@ textarea {
     border: 2px solid #f00;
     background-color: #fee;
 }
+
+.row {
+    margin: 5px 0px;
+}

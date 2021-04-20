@@ -5,38 +5,48 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Popis</h2>
+<h2>Popis studenata</h2>
 
-@Html.ActionLink("Kreiranje novog studenta", "Azuriraj")
-<br/>
-<br/>
+<a href="@Url.Action("Azuriraj","Studenti")" class="btn btn-success">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Kreiranje novog studenta
+</a>
+<br />
+<br />
 
-@using(Html.BeginForm("Popis", "Studenti", FormMethod.Get))
+@using (Html.BeginForm("Popis", "Studenti", FormMethod.Get, new { @class = "form-inline" }))
 {
-    <p>
-        Naziv: @Html.TextBox("naziv")
-        Spol: @Html.RadioButton("spol", "M") Muški
-                @Html.RadioButton("spol", "Z") Ženski
-                @Html.RadioButton("spol", "") Svi
-        <input type="submit" value="Traži" />
-    </p>
+    @Html.TextBox("naziv", "", new { @class = "form-control", placeholder = "Naziv studenta" })
+    <div class="form-group">
+        <label class="radio-inline">
+            @Html.RadioButton("spol", "M") Muški
+        </label>
+        <label class="radio-inline">
+            @Html.RadioButton("spol", "Z") Ženski
+        </label>
+        <label class="radio-inline">
+            @Html.RadioButton("spol", "") Svi
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Traži
+    </button>
 }
+<br />
 
 @if (Model.Count == 0)
 {
     <p>Nema rezultata pretrage!</p>
 }
-else {
-    <table border="1">
+else
+{
+    <table class="table table-striped">
         <tr>
             <th>Id</th>
             <th>Prezime</th>
             <th>Ime</th>
             <th>Oib</th>
             <th>Redovan</th>
-            <th>Detalji</th>
-            <th>Ažuriranje</th>
-            <th>Brisanje</th>
+            <th>Akcije</th>
         </tr>
         @foreach (var student in Model)
         {
@@ -46,11 +56,13 @@ else {
                 <td>@student.Ime</td>
                 <td>@student.Oib</td>
                 <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @disabled = "disabled" })</td>
-                <td>@Html.ActionLink("Info", "Detalji", new { id = student.Id })</td>
-                <td>@Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id })</td>
-                <td>@Html.ActionLink("Izbriši", "Brisi", new { id = student.Id })</td>
-            </tr>
-        }
+                <td>
+                    @Html.ActionLink("Info", "Detalji", new { id = student.Id }, new { @class = "btn btn-info btn-sm" })
+                    @Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id }, new { @class = "btn btn-warning btn-sm" })
+                    @Html.ActionLink("Izbriši", "Brisi", new { id = student.Id }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
     </table>
 }
 

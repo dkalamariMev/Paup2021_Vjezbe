@@ -49,6 +49,7 @@ namespace Paup2021_Vjezbe.Models
 
         [Column("godina_studija")]
         [Display(Name = "Godina studija")]
+        [Range(1, 5, ErrorMessage = "Vrijednost {0} mora biti između {1} i {2}")]
         public GodinaStudija GodinaStudija { get; set; }
 
         [Column("redovni_student")]
