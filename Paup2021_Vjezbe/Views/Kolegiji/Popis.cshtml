@@ -1,0 +1,29 @@
+﻿@using Paup2021_Vjezbe.Models
+@model List<Kolegij>
+@{
+    ViewBag.Title = "Popis kolegija";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Popis kolegija</h2>
+
+<table class="table table-striped">
+    <tr>
+        <th>Id</th>
+        <th>Naziv</th>
+        <th>Nositelj</th>
+        <th>Semestar</th>
+        <th>ECTS bodova</th>
+    </tr>
+    @foreach (var student in Model)
+    {
+        <tr>
+            <td>@student.Id</td>
+            <td>@student.Naziv</td>
+            <td>@student.NositeljKolegija</td>
+            <td>@student.Semestar</td>
+            <td>@student.Ects</td>
+        </tr>
+    }
+</table>
+

@@ -204,6 +204,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KolegijiController.cs" />
     <Compile Include="Controllers\MojPrviController.cs" />
     <Compile Include="Controllers\StudentiController.cs" />
     <Compile Include="Global.asax.cs">
@@ -211,6 +212,7 @@
     </Compile>
     <Compile Include="Models\BazaDbContext.cs" />
     <Compile Include="Models\GodinaStudija.cs" />
+    <Compile Include="Models\Kolegij.cs" />
     <Compile Include="Models\OIB.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentiDB.cs" />
@@ -265,6 +267,7 @@
     <Content Include="Views\Studenti\Azuriraj.cshtml" />
     <Content Include="Views\Studenti\Brisi.cshtml" />
     <Content Include="Views\Studenti\BrisiStatus.cshtml" />
+    <Content Include="Views\Kolegiji\Popis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
