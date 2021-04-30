@@ -13,5 +13,7 @@ namespace Paup2021_Vjezbe.Models
         public DbSet<Student> PopisStudenata { get; set; }
 
         public DbSet<Kolegij> PopisKolegija { get; set; }
+
+        public DbSet<Smjer> PopisSmjerova { get; set; }
     }
 }

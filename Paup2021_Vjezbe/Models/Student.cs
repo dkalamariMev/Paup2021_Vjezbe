@@ -61,5 +61,12 @@ namespace Paup2021_Vjezbe.Models
         [Required(ErrorMessage = "{0} je obavezan")]
         [Range(1, 8, ErrorMessage = "Vrijednost {0} mora biti između {1} i {2}")]
         public int BrojUpisanihKolegija { get; set; }
+
+        [Display(Name = "Smjer")]
+        [Column("smjer_sifra")]
+        [ForeignKey("UpisaniSmjer")]
+        public string SifraSmjera { get; set; }
+
+        public virtual Smjer UpisaniSmjer { get; set; }
     }
 }

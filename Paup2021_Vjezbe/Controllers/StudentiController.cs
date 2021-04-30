@@ -20,9 +20,12 @@ namespace Paup2021_Vjezbe.Controllers
             return View();
         }
 
-        public ActionResult Popis(string naziv, string spol)
+        public ActionResult Popis(string naziv, string spol, string smjer)
         {
             var studenti = bazaPodataka.PopisStudenata.ToList();
+
+            var smjeroviList = bazaPodataka.PopisSmjerova.OrderBy(x => x.Naziv).ToList();
+            ViewBag.Smjerovi = smjeroviList;
 
             //filtriranje
             if (!String.IsNullOrWhiteSpace(naziv))
@@ -33,6 +36,11 @@ namespace Paup2021_Vjezbe.Controllers
             if (!String.IsNullOrWhiteSpace(spol))
             {
                 studenti = studenti.Where(x => x.Spol == spol).ToList();
+            }
+
+            if (!String.IsNullOrWhiteSpace(smjer))
+            {
+                studenti = studenti.Where(x => x.SifraSmjera == smjer).ToList();
             }
 
             //Objekt studentidb klase StudentiDB prosljeđujemo u View kao njegov model
@@ -94,6 +102,10 @@ namespace Paup2021_Vjezbe.Controllers
 
             }
 
+            var smjerovi = bazaPodataka.PopisSmjerova.OrderBy(x => x.Naziv).ToList();
+            smjerovi.Insert(0, new Smjer { Sifra = "", Naziv = "Nedefinirano" });
+            ViewBag.Smjerovi = smjerovi;
+
             //Objekt student klase Student prosljeđujemo u View kao njegov model
             return View(student);
         }
@@ -110,7 +122,7 @@ namespace Paup2021_Vjezbe.Controllers
             }
 
             DateTime datumPrije18g = DateTime.Now.AddYears(-18);
-            if(s.DatumRodjenja > datumPrije18g)
+            if (s.DatumRodjenja > datumPrije18g)
             {
                 ModelState.AddModelError("DatumRodjenja", "Osoba mora biti starija od 18");
             }
@@ -140,7 +152,7 @@ namespace Paup2021_Vjezbe.Controllers
 
             //ukoliko je došlo do greške validacije potrebno je ponovno prikazati formu za unos s unešenim podacima
             //i ovisno dal se kreira (Id == 0) ili ažurira student modificiramo naslov stranice
-            if(s.Id == 0)
+            if (s.Id == 0)
             {
                 ViewBag.Title = "Kreiranje studenta";
                 ViewBag.Novi = true;
@@ -151,6 +163,10 @@ namespace Paup2021_Vjezbe.Controllers
                 ViewBag.Novi = false;
             }
 
+            var smjerovi = bazaPodataka.PopisSmjerova.OrderBy(x => x.Naziv).ToList();
+            smjerovi.Insert(0, new Smjer { Sifra = "", Naziv = "Nedefinirano" });
+            ViewBag.Smjerovi = smjerovi;
+
             return View(s);
         }
 
@@ -159,7 +175,7 @@ namespace Paup2021_Vjezbe.Controllers
         public ActionResult Brisi(int? id)
         {
             //ako id nije defiran preusmjeravamo korisnika na popis studenata
-            if(id == null)
+            if (id == null)
             {
                 return RedirectToAction("Popis");
             }
@@ -168,7 +184,7 @@ namespace Paup2021_Vjezbe.Controllers
             Student s = bazaPodataka.PopisStudenata.FirstOrDefault(x => x.Id == id);
 
             //ako ne postoji student s tim id-em vraćamo HTTP status Not found
-            if(s == null)
+            if (s == null)
             {
                 return HttpNotFound();
             }

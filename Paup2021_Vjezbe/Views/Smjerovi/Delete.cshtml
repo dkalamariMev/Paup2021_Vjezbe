@@ -1,0 +1,44 @@
+﻿@model Paup2021_Vjezbe.Models.Smjer
+
+@{
+    ViewBag.Title = "Brisanje";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Brisanje smjera</h2>
+
+<h3>Jeste li sigurni da želite izbrisati zapis?</h3>
+<div>
+    <h4>Smjer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naziv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aktivnost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aktivnost)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Izbriši
+            </button> |
+            @Html.ActionLink("Povratak na popis", "Index")
+        </div>
+    }
+</div>

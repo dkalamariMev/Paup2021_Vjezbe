@@ -206,6 +206,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KolegijiController.cs" />
     <Compile Include="Controllers\MojPrviController.cs" />
+    <Compile Include="Controllers\SmjeroviController.cs" />
     <Compile Include="Controllers\StudentiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -214,6 +215,7 @@
     <Compile Include="Models\GodinaStudija.cs" />
     <Compile Include="Models\Kolegij.cs" />
     <Compile Include="Models\OIB.cs" />
+    <Compile Include="Models\Smjer.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentiDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -268,6 +270,11 @@
     <Content Include="Views\Studenti\Brisi.cshtml" />
     <Content Include="Views\Studenti\BrisiStatus.cshtml" />
     <Content Include="Views\Kolegiji\Popis.cshtml" />
+    <Content Include="Views\Smjerovi\Create.cshtml" />
+    <Content Include="Views\Smjerovi\Delete.cshtml" />
+    <Content Include="Views\Smjerovi\Details.cshtml" />
+    <Content Include="Views\Smjerovi\Edit.cshtml" />
+    <Content Include="Views\Smjerovi\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

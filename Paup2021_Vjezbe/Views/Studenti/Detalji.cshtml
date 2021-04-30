@@ -88,6 +88,19 @@
         @Model.BrojUpisanihKolegija
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-2">
+        <strong>Smjer: </strong>
+    </div>
+    <div class="col-md-10">
+        @if (@Model.UpisaniSmjer != null)
+        {
+            @Model.UpisaniSmjer.Naziv
+        }
+    </div>
+</div>
+
 <br />
 
 @Html.ActionLink("Povratak na popis studenata", "Popis"
