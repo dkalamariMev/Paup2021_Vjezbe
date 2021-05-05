@@ -1,8 +1,14 @@
-﻿@using Paup2021_Vjezbe.Models
-@model List<Student>
-@{
-    ViewBag.Title = "Popis";
+﻿@{
+    ViewBag.Title = "Popis studenata";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    AjaxOptions ajaxOpt = new AjaxOptions()
+    {
+        UpdateTargetId = "popisStudenata",
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "GET",
+        OnBegin = "LoadingRow"
+    };
 }
 
 <h2>Popis studenata</h2>
@@ -13,7 +19,7 @@
 <br />
 <br />
 
-@using (Html.BeginForm("Popis", "Studenti", FormMethod.Get, new { @class = "form-inline" }))
+@using (Ajax.BeginForm("PopisPartial", "Studenti", ajaxOpt, new { @class = "form-inline", id = "formPopisStudenata" }))
 {
     @Html.TextBox("naziv", "", new { @class = "form-control", placeholder = "Naziv studenta" })
 
@@ -39,38 +45,18 @@
 }
 <br />
 
-@if (Model.Count == 0)
-{
-    <p>Nema rezultata pretrage!</p>
-}
-else
-{
-    <table class="table table-striped">
-        <tr>
-            <th>Id</th>
-            <th>Prezime</th>
-            <th>Ime</th>
-            <th>Oib</th>
-            <th>Smjer</th>
-            <th>Redovan</th>
-            <th>Akcije</th>
-        </tr>
-        @foreach (var student in Model)
-        {
-            <tr>
-                <td>@student.Id</td>
-                <td>@student.Prezime</td>
-                <td>@student.Ime</td>
-                <td>@student.Oib</td>
-                <td>@(student.UpisaniSmjer?.Naziv)</td>
-                <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @disabled = "disabled" })</td>
-                <td>
-                    @Html.ActionLink("Info", "Detalji", new { id = student.Id }, new { @class = "btn btn-info btn-sm" })
-                    @Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id }, new { @class = "btn btn-warning btn-sm" })
-                    @Html.ActionLink("Izbriši", "Brisi", new { id = student.Id }, new { @class = "btn btn-danger btn-sm" })
-                </td>
-            </tr>
-        }
-    </table>
+@{
+    Html.RenderAction("PopisPartial", new { naziv = "", spol = "", smjerovi = "" });
 }
 
+@section Scripts{
+    <script type="text/javascript">
+        function LoadingRow() {
+            $("#tableStudenti tbody").empty();
+
+            $("#tableStudenti tbody").append('<tr><td colspan="7" style="text-align: center">Pretraga u tijeku...</td></tr>');
+
+            $("#pager").empty();
+        }
+    </script>
+}

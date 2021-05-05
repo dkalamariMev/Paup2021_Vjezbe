@@ -1,4 +1,5 @@
-﻿using Paup2021_Vjezbe.Models;
+﻿using PagedList;
+using Paup2021_Vjezbe.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,25 @@ namespace Paup2021_Vjezbe.Controllers
             return View();
         }
 
-        public ActionResult Popis(string naziv, string spol, string smjer)
+        public ActionResult Popis()
         {
-            var studenti = bazaPodataka.PopisStudenata.ToList();
-
             var smjeroviList = bazaPodataka.PopisSmjerova.OrderBy(x => x.Naziv).ToList();
             ViewBag.Smjerovi = smjeroviList;
+            return View();
+        }
+
+        public ActionResult PopisPartial(string naziv, string spol, string smjer, string sort, int? page)
+        {
+            //System.Threading.Thread.Sleep(200); //simulacija duže obrade zahtjeva
+
+            ViewBag.Sortiranje = sort;
+            ViewBag.NazivSort = String.IsNullOrEmpty(sort) ? "naziv_desc" : "";
+            ViewBag.SmjerSort = sort == "smjer" ? "smjer_desc" : "smjer";
+            ViewBag.Smjer = smjer;
+            ViewBag.Naziv = naziv;
+            ViewBag.Spol = spol;
+
+            var studenti = bazaPodataka.PopisStudenata.ToList();
 
             //filtriranje
             if (!String.IsNullOrWhiteSpace(naziv))
@@ -43,8 +57,26 @@ namespace Paup2021_Vjezbe.Controllers
                 studenti = studenti.Where(x => x.SifraSmjera == smjer).ToList();
             }
 
-            //Objekt studentidb klase StudentiDB prosljeđujemo u View kao njegov model
-            return View(studenti);
+            switch (sort)
+            {
+                case "naziv_desc":
+                    studenti = studenti.OrderByDescending(s => s.PrezimeIme).ToList();
+                    break;
+                case "smjer":
+                    studenti = studenti.OrderBy(s => s.SifraSmjera).ToList();
+                    break;
+                case "smjer_desc":
+                    studenti = studenti.OrderByDescending(s => s.SifraSmjera).ToList();
+                    break;
+                default:
+                    studenti = studenti.OrderBy(s => s.PrezimeIme).ToList();
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            return PartialView("_PartialPopis", studenti.ToPagedList(pageNumber, pageSize));
         }
 
         //int? definiramo da parametar id može biti nullabilan, tj da nemora biti definirana njegova vrijednost
