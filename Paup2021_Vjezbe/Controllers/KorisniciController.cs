@@ -31,17 +31,15 @@ namespace Paup2021_Vjezbe.Controllers
             return View(model);
         }
 
-        public ActionResult Prijava(KorisnikPrijava model, 
-            string returnUrl)
+
+        public ActionResult Prijava(KorisnikPrijava model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                var korisnikBaza = bazaPodataka.PopisKorisnika
-                    .FirstOrDefault
-                        (x => x.KorisnickoIme == model.KorisnickoIme);
-                bool passwordOK =
-                    korisnikBaza.Lozinka ==
-                        Misc.PasswordHelper.IzracunajHash(model.Lozinka);
+                //dohvaćamo podatke o korisniku po korisničkom imenu
+                var korisnikBaza = bazaPodataka.PopisKorisnika.FirstOrDefault(x => x.KorisnickoIme == model.KorisnickoIme);
+                //provjeravamo hash lozinke iz baze i izračunati hash na temelju upisane lozinke na login formi
+                bool passwordOK = korisnikBaza.Lozinka == Misc.PasswordHelper.IzracunajHash(model.Lozinka);
 
                 if (passwordOK)
                 {
@@ -64,6 +62,7 @@ namespace Paup2021_Vjezbe.Controllers
                         ticketEncrpyted);
                     Response.Cookies.Add(cookie);
 
+                    //ako postoji url kojem je korisnik prvotno pristupao tada preusmjeravamo na taj url
                     if(!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
 
