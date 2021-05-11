@@ -57,9 +57,9 @@ namespace Paup2021_Vjezbe.Controllers
                         false,
                         korisnickiPodaci);
 
-                    string ticketEncrpyted = FormsAuthentication.Encrypt(authTicket);
+                    string ticketEncrypted = FormsAuthentication.Encrypt(authTicket);
                     HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName,
-                        ticketEncrpyted);
+                        ticketEncrypted);
                     Response.Cookies.Add(cookie);
 
                     //ako postoji url kojem je korisnik prvotno pristupao tada preusmjeravamo na taj url
