@@ -64,11 +64,15 @@ namespace Paup2021_Vjezbe.Controllers
                         ticketEncrpyted);
                     Response.Cookies.Add(cookie);
 
+                    if(!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+
                     return RedirectToAction("Index", "Home");
                 }
             }
 
-            return View();
+            ModelState.AddModelError("", "Neispravno korisničko ime ili lozinka");
+            return View(model);
         }
     }
 }
