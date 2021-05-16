@@ -294,6 +294,8 @@
     <Content Include="Views\Studenti\_PartialPopis.cshtml" />
     <Content Include="Views\Korisnici\Index.cshtml" />
     <Content Include="Views\Korisnici\Prijava.cshtml" />
+    <Content Include="Views\Korisnici\Registracija.cshtml" />
+    <Content Include="Views\Korisnici\RegistracijaOk.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

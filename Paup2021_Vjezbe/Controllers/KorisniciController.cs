@@ -73,5 +73,49 @@ namespace Paup2021_Vjezbe.Controllers
             ModelState.AddModelError("", "Neispravno korisničko ime ili lozinka");
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult Registracija()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Registracija(Korisnik model)
+        {
+            if (!String.IsNullOrWhiteSpace(model.KorisnickoIme))
+            {
+                //metoda Any vraća ako postoji (true/false) barem jedan zapis koji zadovoljava uvjete pretrage
+                var korImeZauzeto = bazaPodataka.PopisKorisnika.Any(x => x.KorisnickoIme == model.KorisnickoIme);
+                if (korImeZauzeto)
+                {
+                    ModelState.AddModelError("KorisnickoIme", "Korisničko ime je već zauzeto");
+                }
+            }
+            if (!String.IsNullOrWhiteSpace(model.Email))
+            {
+                var emailZauzet = bazaPodataka.PopisKorisnika.Any(x => x.Email == model.Email);
+                if (emailZauzet)
+                {
+                    ModelState.AddModelError("Email", "Email je već zauzet");
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                model.Lozinka = Misc.PasswordHelper.IzracunajHash(model.LozinkaUnos);
+                model.SifraOvlasti = "MO";
+
+                bazaPodataka.PopisKorisnika.Add(model);
+                bazaPodataka.SaveChanges();
+
+                return View("RegistracijaOk");
+            }
+
+            var ovlasti = bazaPodataka.PopisOvlasti.OrderBy(x => x.Naziv).ToList();
+            ViewBag.Ovlasti = ovlasti;
+
+            return View(model);
+        }
     }
 }
