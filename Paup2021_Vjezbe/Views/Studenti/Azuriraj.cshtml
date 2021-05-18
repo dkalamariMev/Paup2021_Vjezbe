@@ -14,7 +14,7 @@ else
     <h3>@Model.Ime @Model.Prezime</h3>
 }
 
-@using (Html.BeginForm("Azuriraj", "Studenti", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Azuriraj", "Studenti", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" })) //enctype definiramo da bi mogli uploadati datoteku
 {
     @*
         Html.AntiForgeryToken() - mehanizam koji nas štiti od cross site request forgery
@@ -106,6 +106,23 @@ else
             @Html.ValidationMessageFor(model => model.SifraSmjera, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    /*
+        HiddenFor koristimo ako želimo prenijeti postojeću vrijednost određenog propertya modela u POST metodu bez da korisnik može sam promijeniti tu vrijednost,
+        tj ne nudimo mu polje za unos/ažuriranje.
+        Ukoliko ovo nebi definirali, onda bi na POST metodu došao sa vrijednošću null.
+        Moramo koristi iz razloga da ako korisnik kod ažuriranja podataka o korisniku ne odabere novu sliku onda moramo zapamtiti postojeću.
+     */
+    @Html.HiddenFor(model => model.SlikaPutanja);
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SlikaPutanja, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            <input type="file" name="ImageFile" class="form-control" />
+            @Html.ValidationMessageFor(model => model.SlikaPutanja, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     <!--Button za spremanje -->
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">

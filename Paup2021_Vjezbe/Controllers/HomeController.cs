@@ -11,7 +11,7 @@ namespace Paup2021_Vjezbe.Controllers
     {
         public ActionResult Index()
         {
-            //Primjer kako doći do podataka o logiranom korisniku                           
+            //Primjer kako doći do podataka o logiranom korisniku
             LogiraniKorisnik logKor = User as LogiraniKorisnik;
             if (logKor != null)
             {

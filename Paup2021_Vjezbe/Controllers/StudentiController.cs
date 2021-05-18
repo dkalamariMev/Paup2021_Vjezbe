@@ -2,6 +2,7 @@
 using Paup2021_Vjezbe.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -161,6 +162,29 @@ namespace Paup2021_Vjezbe.Controllers
             if (s.DatumRodjenja > datumPrije18g)
             {
                 ModelState.AddModelError("DatumRodjenja", "Osoba mora biti starija od 18");
+            }
+
+            //Ako je korisnik odabrao sliku spremamo je u direktorij Images
+            if (s.ImageFile != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(s.ImageFile.FileName);
+                string extension = Path.GetExtension(s.ImageFile.FileName);
+
+                //kontroliramo ekstenziju datoteke
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                {
+                    fileName = fileName + "_" + DateTime.Now.Ticks + extension; //umjesto DateTime.Now.Ticks možemo koristiti i Guid.NewGuid()
+                    string folderSlike = "~/Images/";
+                    //u model spremamo putanju do slike
+                    s.SlikaPutanja = folderSlike + fileName;
+                    //generiramo putanju do slike na disku gdje je želimo spremiti
+                    fileName = Path.Combine(Server.MapPath(folderSlike), fileName);
+                    s.ImageFile.SaveAs(fileName);
+                }
+                else
+                {
+                    ModelState.AddModelError("SlikaPutanja", "Nepodržana ekstenzija");
+                }
             }
 
             //ModelState.IsValid - provjera ispravnosti podataka
