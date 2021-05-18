@@ -1,5 +1,6 @@
 ﻿@using Paup2021_Vjezbe.Models
 @using PagedList.Mvc;
+@using Paup2021_Vjezbe.Misc;
 @model PagedList.IPagedList<Student>
 @{
     AjaxOptions ajaxOpt = new AjaxOptions()
@@ -28,7 +29,12 @@
                         new { smjer = ViewBag.Smjer, naziv = ViewBag.Naziv, spol = ViewBag.Spol, sort = ViewBag.SmjerSort }, ajaxOpt)
                 </th>
                 <th>Redovni</th>
-                <th>Akcije</th>
+                @if (User.Identity.IsAuthenticated &&
+               ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator)
+               || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+                {
+                    <th>Akcije</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -37,19 +43,24 @@
             {
                 foreach (var student in Model)
                 {
-                    <tr>
-                        <td>@student.Id</td>
-                        <td>@student.Prezime</td>
-                        <td>@student.Ime</td>
-                        <td>@student.Oib</td>
-                        <td>@(student.UpisaniSmjer?.Naziv)</td>
-                        <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @disabled = true })</td>
-                        <td>
-                            @Html.ActionLink("Detalji", "Detalji", new { id = student.Id }, new { @class = "btn btn-info btn-sm" })
-                            @Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id }, new { @class = "btn btn-warning btn-sm" })
-                            @Html.ActionLink("Izbriši", "Brisi", new { id = student.Id }, new { @class = "btn btn-danger btn-sm" })
-                        </td>
-                    </tr>
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.Prezime</td>
+                <td>@student.Ime</td>
+                <td>@student.Oib</td>
+                <td>@(student.UpisaniSmjer?.Naziv)</td>
+                <td>@Html.CheckBox("chbRedovan", student.RedovniStudent, new { @disabled = true })</td>
+                @if (User.Identity.IsAuthenticated &&
+                   ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator)
+                   || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+                {
+                    <td>
+                        @Html.ActionLink("Detalji", "Detalji", new { id = student.Id }, new { @class = "btn btn-info btn-sm" })
+                        @Html.ActionLink("Ažuriraj", "Azuriraj", new { id = student.Id }, new { @class = "btn btn-warning btn-sm" })
+                        @Html.ActionLink("Izbriši", "Brisi", new { id = student.Id }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                }
+            </tr>
                 }
             }
             else

@@ -9,11 +9,13 @@ using System.Web.Mvc;
 
 namespace Paup2021_Vjezbe.Controllers
 {
+    [Authorize]
     public class StudentiController : Controller
     {
         BazaDbContext bazaPodataka = new BazaDbContext();
 
         // GET: Studenti
+        [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Title = "Početna stranica o studentima";
@@ -21,6 +23,7 @@ namespace Paup2021_Vjezbe.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Popis()
         {
             var smjeroviList = bazaPodataka.PopisSmjerova.OrderBy(x => x.Naziv).ToList();
@@ -28,6 +31,7 @@ namespace Paup2021_Vjezbe.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult PopisPartial(string naziv, string spol, string smjer, string sort, int? page)
         {
             //System.Threading.Thread.Sleep(200); //simulacija duže obrade zahtjeva

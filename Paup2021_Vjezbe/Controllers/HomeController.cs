@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paup2021_Vjezbe.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,16 @@ namespace Paup2021_Vjezbe.Controllers
     {
         public ActionResult Index()
         {
+            //Primjer kako doći do podataka o logiranom korisniku
+            if (User != null)
+            {                  
+                LogiraniKorisnik logKor = User as LogiraniKorisnik;
+                if (logKor != null)
+                {
+                    ViewBag.Logirani = logKor.KorisnickoIme;
+                }
+            }
+
             return View();
         }
 

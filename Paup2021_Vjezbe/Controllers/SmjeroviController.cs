@@ -6,15 +6,18 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Paup2021_Vjezbe.Misc;
 using Paup2021_Vjezbe.Models;
 
 namespace Paup2021_Vjezbe.Controllers
 {
+    [Authorize(Roles = OvlastiKorisnik.Administrator + ", " + OvlastiKorisnik.Moderator)]
     public class SmjeroviController : Controller
     {
         private BazaDbContext db = new BazaDbContext();
 
         // GET: Smjerovi
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(db.PopisSmjerova.ToList());

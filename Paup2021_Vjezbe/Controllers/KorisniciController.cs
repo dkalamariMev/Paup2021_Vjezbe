@@ -10,6 +10,7 @@ using System.Web.Security;
 
 namespace Paup2021_Vjezbe.Controllers
 {
+    [Authorize(Roles = OvlastiKorisnik.Administrator)]
     public class KorisniciController : Controller
     {
         BazaDbContext bazaPodataka = new BazaDbContext();
@@ -31,7 +32,8 @@ namespace Paup2021_Vjezbe.Controllers
             return View(model);
         }
 
-
+        [HttpPost]
+        [AllowAnonymous]
         public ActionResult Prijava(KorisnikPrijava model, string returnUrl)
         {
             if (ModelState.IsValid)
@@ -74,13 +76,24 @@ namespace Paup2021_Vjezbe.Controllers
             return View(model);
         }
 
+        [OverrideAuthorization]
+        [Authorize]
+        public ActionResult Odjava()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            return RedirectToAction("Index","Home");
+        }
+
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Registracija()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Registracija(Korisnik model)
         {
             if (!String.IsNullOrWhiteSpace(model.KorisnickoIme))

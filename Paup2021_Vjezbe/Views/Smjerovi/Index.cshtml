@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Paup2021_Vjezbe.Models.Smjer>
-
+@using Paup2021_Vjezbe.Misc
 @{
     ViewBag.Title = "Popis smjerova";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,11 +7,16 @@
 
 <h2>Popis smjerova</h2>
 
-<p>
-    <a href="@Url.Action("Create","Smjerovi")" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Kreiranje novog
-    </a>
-</p>
+@if (User.Identity.IsAuthenticated &&
+    (  (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator)
+    || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+{
+    <p>
+        <a href="@Url.Action("Create", "Smjerovi")" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Kreiranje novog
+        </a>
+    </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -20,8 +25,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Aktivnost)
         </th>
-        <th></th>
-    </tr>
+        @if (User.Identity.IsAuthenticated &&
+            ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator)
+            || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+            {
+                <th></th>
+            }
+        </tr>
 
     @foreach (var item in Model)
     {
@@ -32,12 +42,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Aktivnost)
             </td>
-            <td>
-                @Html.ActionLink("Detalji", "Details", new { id = item.Sifra }, new { @class = "btn btn-warning btn-sm" })
-                @Html.ActionLink("Ažuriraj", "Edit", new { id = item.Sifra }, new { @class = "btn btn-info btn-sm" })
-                @Html.ActionLink("Izbriši", "Delete", new { id = item.Sifra }, new { @class = "btn btn-danger btn-sm" })
-            </td>
+            @if (User.Identity.IsAuthenticated &&
+                ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator)
+                || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+            {
+                <td>
+                    @Html.ActionLink("Detalji", "Details", new { id = item.Sifra }, new { @class = "btn btn-warning btn-sm" })
+                    @Html.ActionLink("Ažuriraj", "Edit", new { id = item.Sifra }, new { @class = "btn btn-info btn-sm" })
+                    @Html.ActionLink("Izbriši", "Delete", new { id = item.Sifra }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            }
         </tr>
-    }
+}
 
 </table>
