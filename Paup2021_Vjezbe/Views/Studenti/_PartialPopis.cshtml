@@ -83,4 +83,12 @@
             PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(ajaxOpt))
 
     </div>
+
+    <p>
+        <a href="@Url.Action("IspisStudenata", "Studenti",
+                new { smjer = ViewBag.Smjer, naziv = ViewBag.Naziv, 
+                    spol = ViewBag.Spol, sort = ViewBag.Sortiranje })" class="btn btn-primary">
+            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Kreiraj PDF
+        </a>
+    </p>
 </div>

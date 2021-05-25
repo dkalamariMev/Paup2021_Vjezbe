@@ -1,5 +1,6 @@
 ﻿using PagedList;
 using Paup2021_Vjezbe.Models;
+using Paup2021_Vjezbe.Reports;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -82,6 +83,59 @@ namespace Paup2021_Vjezbe.Controllers
             int pageNumber = (page ?? 1);
 
             return PartialView("_PartialPopis", studenti.ToPagedList(pageNumber, pageSize));
+        }
+
+        [AllowAnonymous]
+        public ActionResult IspisStudenata(string naziv, string spol, string smjer, string sort, int? page)
+        {
+            //System.Threading.Thread.Sleep(200); //simulacija duže obrade zahtjeva
+
+            ViewBag.Sortiranje = sort;
+            ViewBag.NazivSort = String.IsNullOrEmpty(sort) ? "naziv_desc" : "";
+            ViewBag.SmjerSort = sort == "smjer" ? "smjer_desc" : "smjer";
+            ViewBag.Smjer = smjer;
+            ViewBag.Naziv = naziv;
+            ViewBag.Spol = spol;
+
+            var studenti = bazaPodataka.PopisStudenata.ToList();
+
+            //filtriranje
+            if (!String.IsNullOrWhiteSpace(naziv))
+            {
+                studenti = studenti.Where(x => x.PrezimeIme.ToUpper().Contains(naziv.ToUpper())).ToList();
+            }
+
+            if (!String.IsNullOrWhiteSpace(spol))
+            {
+                studenti = studenti.Where(x => x.Spol == spol).ToList();
+            }
+
+            if (!String.IsNullOrWhiteSpace(smjer))
+            {
+                studenti = studenti.Where(x => x.SifraSmjera == smjer).ToList();
+            }
+
+            switch (sort)
+            {
+                case "naziv_desc":
+                    studenti = studenti.OrderByDescending(s => s.PrezimeIme).ToList();
+                    break;
+                case "smjer":
+                    studenti = studenti.OrderBy(s => s.SifraSmjera).ToList();
+                    break;
+                case "smjer_desc":
+                    studenti = studenti.OrderByDescending(s => s.SifraSmjera).ToList();
+                    break;
+                default:
+                    studenti = studenti.OrderBy(s => s.PrezimeIme).ToList();
+                    break;
+            }
+
+            StudentiReport studentiReport = new StudentiReport();
+            studentiReport.ListaStudenata(studenti);
+
+            return File(studentiReport.Podaci, System.Net.Mime.MediaTypeNames.Application.Pdf,
+                "PopisStudenata.pdf");
         }
 
         //int? definiramo da parametar id može biti nullabilan, tj da nemora biti definirana njegova vrijednost
