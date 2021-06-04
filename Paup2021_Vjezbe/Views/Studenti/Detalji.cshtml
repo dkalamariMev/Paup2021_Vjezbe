@@ -17,6 +17,11 @@
 
 <h2>Detalji o studentu</h2>
 
+<a href="@Url.Action("DetaljiIspis", "Studenti",
+                new { id = Model.Id })" class="btn btn-primary btn-sm">
+    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Kreiraj PDF
+</a>
+
 @if (!String.IsNullOrWhiteSpace(Model.SlikaPutanja))
 {
     <div class="row">
@@ -112,5 +117,8 @@
 
 <br />
 
+
+
 @Html.ActionLink("Povratak na popis studenata", "Popis"
     , "Studenti", null, new { @class = "btn btn-primary btn-sm" })
+

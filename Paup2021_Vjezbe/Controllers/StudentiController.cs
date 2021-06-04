@@ -1,4 +1,5 @@
 ﻿using PagedList;
+using Paup2021_Vjezbe.Misc;
 using Paup2021_Vjezbe.Models;
 using Paup2021_Vjezbe.Reports;
 using System;
@@ -159,6 +160,27 @@ namespace Paup2021_Vjezbe.Controllers
 
             //Objekt student klase Student prosljeđujemo u View kao njegov model
             return View(student);
+        }
+
+        public ActionResult DetaljiIspis(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return RedirectToAction("Popis");
+            }
+
+            Student student = bazaPodataka.PopisStudenata.FirstOrDefault(x => x.Id == id);
+
+            if (student == null)
+            {
+                return RedirectToAction("Popis");
+            }
+
+            StudentiReport studentiReport = new StudentiReport();
+            var log = User as LogiraniKorisnik;
+            studentiReport.Student(student, log != null ? log.PrezimeIme : "Ime prezime");
+
+            return File(studentiReport.Podaci, System.Net.Mime.MediaTypeNames.Application.Pdf, "PodaciOStudentu.pdf");
         }
 
         //int? definiramo da parametar id može biti nullabilan

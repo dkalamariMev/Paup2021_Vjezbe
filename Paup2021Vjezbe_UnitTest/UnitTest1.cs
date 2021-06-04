@@ -39,7 +39,7 @@ namespace Paup2021Vjezbe_UnitTest
                 Oib = new string('a', 10)
             };
 
-            var context = new ValidationContext(s) 
+            var context = new ValidationContext(s)
                 { MemberName = nameof(Student.Oib) };
 
             var results = new List<ValidationResult>();
@@ -69,28 +69,35 @@ namespace Paup2021Vjezbe_UnitTest
         [TestMethod]
         public void TestStudentiIndexTitle()
         {
+            //Arrange
             StudentiController controller =
-                new StudentiController();                    
+                new StudentiController();
 
+            //Act
             ViewResult result = controller.Index() as ViewResult;
 
-            Assert.AreEqual("Početna stranica o studentima", 
-                result.ViewBag.Title);
+            //Assert
+            Assert.AreEqual("Početna stranica o studentima", result.ViewBag.Title);
         }
 
         [TestMethod]
-        public void Smjerovi_DuplikatException()
+        public void Kolegij_NazivNotNull()
         {
-            SmjeroviController contr =
-                new SmjeroviController();
-
-            Smjer testSmjer = new Smjer()
+            // Arrange
+            Kolegij testKolegij = new Kolegij
             {
-                Sifra = "MS",
-                Naziv = "Menadžment sporta"
+                Naziv = null
             };
 
-            Assert.ThrowsException<DbUpdateException>(() => contr.Create(testSmjer));
+            // Act
+            var ctx = new ValidationContext(testKolegij) { MemberName = nameof(testKolegij.Naziv) };
+            var result = new List<ValidationResult>();
+            var valid = Validator.TryValidateProperty(testKolegij.Naziv, ctx, result);
+
+            // Assert
+            Assert.IsFalse(valid);
+            Assert.AreEqual(result.Count, 1);
+            Assert.AreEqual("Naziv je obavezno", result[0].ErrorMessage);
         }
 
         [TestMethod]
@@ -114,6 +121,21 @@ namespace Paup2021Vjezbe_UnitTest
             int obrisano = db.SaveChanges();
 
             Assert.AreEqual(1, obrisano);
+        }
+
+        [TestMethod]
+        public void Smjerovi_DuplikatException()
+        {
+            SmjeroviController contr =
+                new SmjeroviController();
+
+            Smjer testSmjer = new Smjer()
+            {
+                Sifra = "MS",
+                Naziv = "Menadžment sporta"
+            };
+
+            Assert.ThrowsException<DbUpdateException>(() => contr.Create(testSmjer));
         }
     }
 }
